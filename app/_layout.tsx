@@ -1,39 +1,76 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
+import { useEffect, useState } from 'react';
 import { Stack } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { StatusBar } from 'expo-status-bar';
-import { useEffect } from 'react';
-import 'react-native-reanimated';
+import { auth } from '../library/firebase';
+import { Ionicons } from '@expo/vector-icons';
+import { TouchableOpacity } from 'react-native';
+import { useRouter } from 'expo-router';
 
-import { useColorScheme } from '@/hooks/useColorScheme';
 
-// Prevent the splash screen from auto-hiding before asset loading is complete.
-SplashScreen.preventAutoHideAsync();
-
-export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-  });
+const RootLayout = () => {
+  const [loading, setLoading] = useState(true);
+  const [currentUser, setCurrentUser] = useState<any>(null);
+  const router = useRouter();
 
   useEffect(() => {
-    if (loaded) {
-      SplashScreen.hideAsync();
-    }
-  }, [loaded]);
+    const unsubscribe = auth.onAuthStateChanged((user: any) => {
+      setCurrentUser(user);
+      setLoading(false);
+    });
 
-  if (!loaded) {
-    return null;
+    return () => unsubscribe();
+  }, []);
+
+  if (loading) {
+    return null; // or a loading spinner if you prefer
   }
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
+    <Stack
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: '#9DD187', // Background color of the header
+        },
+        headerTintColor: '#2A2C38',
+        headerLeft: () => (
+          <TouchableOpacity onPress={() => router.back()}>
+            <Ionicons name="arrow-back" size={24} color="#2A2C38" />
+          </TouchableOpacity>
+        ),
+      }}
+    >
+      {currentUser ? (
+        <Stack.Screen
+          name="(tabs)"
+          options={{
+            headerShown: false,
+            title: 'Volver',
+          }}
+        />
+      ) : (
+        <Stack.Screen
+          name="(auth)"
+          options={{
+            headerShown: false,
+            title: 'Volver',
+          }}
+        />
+      )}
+      <Stack.Screen
+        name="(chat)"
+        options={{
+          headerShown: false,
+          title: 'Chat Grupal',
+        }}
+      />
+      <Stack.Screen
+        name="(travelInfo)"
+        options={{
+          headerShown: false,
+          title: 'Trayecto Información',
+        }}
+      />
+    </Stack>
   );
-}
+};
+
+export default RootLayout;

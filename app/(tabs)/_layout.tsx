@@ -1,45 +1,77 @@
-import { Tabs } from 'expo-router';
-import React from 'react';
-import { Platform } from 'react-native';
+import { Tabs } from "expo-router";
+import {
+  FontAwesome,
+  FontAwesome5,
+  Entypo,
+  MaterialIcons,
+} from "@expo/vector-icons";
 
-import { HapticTab } from '@/components/HapticTab';
-import { IconSymbol } from '@/components/ui/IconSymbol';
-import TabBarBackground from '@/components/ui/TabBarBackground';
-import { Colors } from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
-
-export default function TabLayout() {
-  const colorScheme = useColorScheme();
-
+const TabsLayout = () => {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        headerShown: false,
-        tabBarButton: HapticTab,
-        tabBarBackground: TabBarBackground,
-        tabBarStyle: Platform.select({
-          ios: {
-            // Use a transparent background on iOS to show the blur effect
-            position: 'absolute',
-          },
-          default: {},
-        }),
-      }}>
+        tabBarStyle: {
+          backgroundColor: "#9DD187",
+          shadowColor: "#000",
+          shadowOffset: { width: 0, height: 5 },
+          shadowOpacity: 0.3,
+          shadowRadius: 6,
+          elevation: 10,
+          height: 85,
+        },
+        tabBarActiveTintColor: "#2A2C38",
+        tabBarInactiveTintColor: "#2A2C38",
+        tabBarLabelStyle: {
+          fontSize: 12,
+          marginBottom: -5,
+        },
+        tabBarIconStyle: {
+          marginTop: 8,
+        },
+        headerStyle: {
+          backgroundColor: "#9DD187",
+        },
+        headerTintColor: "#2A2C38",
+      }}
+    >
       <Tabs.Screen
-        name="index"
+        name="inicio"
         options={{
-          title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+          title: "Inicio",
+          tabBarIcon: ({ color, size }) => (
+            <FontAwesome name="home" color={color} size={30} />
+          ),
         }}
       />
       <Tabs.Screen
-        name="explore"
+        name="publicar"
         options={{
-          title: 'Explore',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
+          title: "Publicar",
+          tabBarIcon: ({ color, size }) => (
+            <Entypo name="add-to-list" color={color} size={30} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="reservar"
+        options={{
+          title: "Reservar",
+          tabBarIcon: ({ color, size }) => (
+            <MaterialIcons name="directions-car" color={color} size={30} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="cuenta"
+        options={{
+          title: "Cuenta",
+          tabBarIcon: ({ color, size }) => (
+            <FontAwesome5 name="user-alt" color={color} size={25} />
+          ),
         }}
       />
     </Tabs>
   );
-}
+};
+
+export default TabsLayout;
