@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "SharetogoApp",
-    "slug": "SharetogoApp",
-    "version": "1.0.0",
+    "name": "SharetoGo",
+    "slug": "Sharetogo",
+    "version": "2.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "myapp",
@@ -12,10 +12,12 @@
       "supportsTablet": true
     },
     "android": {
+      "versionCode": 2,
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      }
+        "foregroundImage": "./assets/images/adaptive-icon2.png",
+        "backgroundColor": "#9dd187"
+      },
+      "package": "com.sharetogo.Sharetogo"
     },
     "web": {
       "bundler": "metro",
@@ -27,7 +29,7 @@
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/splash-icon.png",
+          "image": "./assets/images/splash.png",
           "imageWidth": 200,
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
@@ -36,6 +38,15 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "owner": "sharetogo",
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "73b7b407-2d7e-41a1-a6c2-5e5d15ff9139"
+      }
     }
   }
 }
